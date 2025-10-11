@@ -10,7 +10,7 @@ double time_ms(clock_t start, clock_t end) {
 
 int main() {
     OQS_STATUS rc;
-    const char *alg_name = "Dilithium2";  // PQC Signature
+    const char *alg_name = "Dilithium2";  
     OQS_SIG *sig = NULL;
 
     printf("Algorithm: %s\n", alg_name);
