@@ -91,11 +91,12 @@ assignment-3
     └── globals.css           # App styling (basic CSS or Tailwind)
 
 
-**Screenshot**
+## Screenshot
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/83829760-82f1-4658-8493-d65281b4b503" />
+
 
 
 
