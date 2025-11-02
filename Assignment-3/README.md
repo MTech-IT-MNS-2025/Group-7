@@ -65,11 +65,32 @@ npm run dev
 - "User is typing…" indicator
 
 ## Architecture
-- Next.js Pages for UI, API routes for socket + history.
-- MongoDB persists messages; presence is in-memory (per instance).
-- On load, `chat.js` fetches history:
-```js
-const res = await fetch(`/api/messages?user1=${username}&user2=${recipient}`);
-const history = await res.json();
-setMessages(history);
-```
+assignment-3
+│
+├── 📄 README.md
+├── 📄 package.json
+├── 📄 next.config.js
+├── 📄 .gitignore
+├── 📄 .env.example
+│
+├── 📁 pages/
+│   ├── index.js              # Login Page – user enters username
+│   ├── chat.js               # Chat Page – real-time messaging interface
+│   │
+│   └── api/
+│       ├── socketio.js       # Socket.io backend server
+│       └── messages.js       # Fetch message history from MongoDB
+│
+├── 📁 lib/
+│   └── mongodb.js            # MongoDB connection setup
+│
+├── 📁 models/
+│   └── Message.js            # Message schema (sender, receiver, text, timestamp)
+│
+└── 📁 styles/
+    └── globals.css           # App styling (basic CSS or Tailwind)
+
+
+##Screenshot
+
+
