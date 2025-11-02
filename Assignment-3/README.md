@@ -1,6 +1,6 @@
-# One-to-One Private Messaging — Next.js + Socket.io + MongoDB
+# One-to-One Private Messaging — Next.js + Socket.io + MongoDBAtlas
 
-A minimal, fully working 1‑to‑1 private chat built with **Next.js** (pages + API routes), **Socket.io** for realtime, and **MongoDB** for persistence. Includes login by username, chat page with recipient field, realtime delivery, stored history, online/typing indicators.
+A minimal, fully working 1‑to‑1 private chat built with **Next.js** (pages + API routes), **Socket.io** for realtime, and **MongoDB Atlas** for persistence. Includes login by username, chat page with recipient field, realtime delivery, stored history, online/typing indicators.
 
 ## Objective
 Design and implement a one‑to‑one private messaging application using Next.js and Socket.io, with messages persisted in MongoDB for chat history and offline delivery.
@@ -8,7 +8,7 @@ Design and implement a one‑to‑one private messaging application using Next.j
 ## Learning Outcomes
 1. Build full‑stack apps using Next.js pages & API routes.
 2. Implement one‑to‑one realtime messaging with Socket.io.
-3. Store messages in MongoDB for history.
+3. Store messages in MongoDB Atlas for history.
 4. Display previous messages on login/open of a chat.
 5. Understand session/presence and message routing for private communication.
 
@@ -82,7 +82,7 @@ assignment-3
 │       └── messages.js       # Fetch message history from MongoDB
 │
 ├── 📁 lib/
-│   └── mongodb.js            # MongoDB connection setup
+│   └── mongodb.js            # MongoDB Atlas connection setup
 │
 ├── 📁 models/
 │   └── Message.js            # Message schema (sender, receiver, text, timestamp)
@@ -96,6 +96,7 @@ assignment-3
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/83829760-82f1-4658-8493-d65281b4b503" />
+
 
 
 
