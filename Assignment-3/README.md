@@ -1,4 +1,3 @@
-<img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/dfc65cf8-09d6-419e-8619-16a1e3dd7e90" />
 # One-to-One Private Messaging — Next.js + Socket.io + MongoDB
 
 A minimal, fully working 1‑to‑1 private chat built with **Next.js** (pages + API routes), **Socket.io** for realtime, and **MongoDB** for persistence. Includes login by username, chat page with recipient field, realtime delivery, stored history, online/typing indicators.
@@ -97,6 +96,7 @@ assignment-3
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/83829760-82f1-4658-8493-d65281b4b503" />
+
 
 
 
