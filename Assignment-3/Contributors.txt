@@ -1,4 +1,4 @@
-# Contributors - Private Messaging App (Next.js + Socket.io + MongoDB)
+# Contributors - Private Messaging App (Next.js + Socket.io + MongoDB Atlas)
 
 Member 1 (MANISHA) – Authentication & Documentation  
 - Created login page and session handling  
