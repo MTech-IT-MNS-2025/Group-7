@@ -1,1 +1,15 @@
+# Contributors - Private Messaging App (Next.js + Socket.io + MongoDB)
 
+Member 1 (MANISHA) – Authentication & Documentation  
+- Created login page and session handling  
+- Wrote project overview and installation steps in README.md  
+
+Member 2 (Shreyansh Rajput) – Real-Time Communication  
+- Implemented Socket.io server and message routing  
+
+Member 3 (Nidhi Jain) – Database & Setup  
+- Connected MongoDB and created message APIs    
+
+Member 4 (Ayushi Verma) – Chat UI & Integration  
+- Built chat interface and integrated Socket.io client  
+- Styled UI
