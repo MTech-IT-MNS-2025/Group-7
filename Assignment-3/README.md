@@ -92,5 +92,7 @@ assignment-3
 
 
 ##Screenshot
+<img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
+
 
 
