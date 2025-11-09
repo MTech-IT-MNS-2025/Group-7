@@ -98,11 +98,15 @@ Assignment-3
 ```
 ## Screenshot
 
-<img width="1280" height="832" alt="Screenshot 2025-11-09 at 3 30 00 PM" src="https://github.com/user-attachments/assets/9f15d3a3-eb4a-4653-ae3a-0d455c3eee8b" />
+<img width="1280" height="832" alt="Screenshot 2025-11-09 at 6 46 15 PM" src="https://github.com/user-attachments/assets/21bc6fa9-a8e1-4e17-9009-5d7c6e8dc1a6" />
+
+<img width="1280" height="832" alt="Screenshot 2025-11-09 at 6 46 07 PM" src="https://github.com/user-attachments/assets/970fde7c-771f-43a5-8edc-465f1082ebfa" />
+
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/83829760-82f1-4658-8493-d65281b4b503" />
+
 
 
 
