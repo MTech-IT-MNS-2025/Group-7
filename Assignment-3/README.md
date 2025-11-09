@@ -95,10 +95,11 @@ Assignment-3
 ```
 ## Screenshot
 
+<img width="1280" height="832" alt="Screenshot 2025-11-09 at 3 30 00 PM" src="https://github.com/user-attachments/assets/9f15d3a3-eb4a-4653-ae3a-0d455c3eee8b" />
+
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/83829760-82f1-4658-8493-d65281b4b503" />
-
 
 
 
