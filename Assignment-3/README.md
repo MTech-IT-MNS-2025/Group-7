@@ -76,18 +76,21 @@ Assignment-3
 ├── 📄 .env.example
 │
 ├── 📁 pages/
+│   └── api/
+│       ├── login.js
+│       └── messages.js       # Fetch message history from MongoDB
+│       └── register.js       # Fetch message history from MongoDB
+│       └── socketio.js       # Socket.io backend server
+│   ├── _app.js              
 │   ├── index.js              # Login Page – user enters username
 │   ├── chat.js               # Chat Page – real-time messaging interface
-│   │
-│   └── api/
-│       ├── socketio.js       # Socket.io backend server
-│       └── messages.js       # Fetch message history from MongoDB
-│
+│   ├── register.js         
 ├── 📁 lib/
 │   └── mongodb.js            # MongoDB Atlas connection setup
 │
 ├── 📁 models/
 │   └── Message.js            # Message schema (sender, receiver, text, timestamp)
+│   └── User.js        
 │
 └── 📁 styles/
     └── globals.css           # App styling (basic CSS or Tailwind)
@@ -100,6 +103,7 @@ Assignment-3
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 09 PM" src="https://github.com/user-attachments/assets/535ad2ca-a53f-4e54-81f3-b99f9355f371" />
 
 <img width="1280" height="832" alt="Screenshot 2025-11-02 at 1 27 53 PM" src="https://github.com/user-attachments/assets/83829760-82f1-4658-8493-d65281b4b503" />
+
 
 
 
