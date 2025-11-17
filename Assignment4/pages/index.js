@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+
 export default function Home() {
   const [Module, setModule] = useState(null);
   const [text, setText] = useState("");
   const [key, setKey] = useState("");
   const [result, setResult] = useState("");
+
   useEffect(() => {
     fetch("/wasm/rc4.js")
       .then((res) => res.text())
@@ -14,6 +16,7 @@ export default function Home() {
         window.RC4Module().then((mod) => setModule(mod));
       });
   }, []);
+
   // Convert WASM bytes to Base64
   const bytesToBase64 = (ptr, len) => {
     const bytes = new Uint8Array(Module.HEAPU8.buffer, ptr, len);
@@ -23,6 +26,7 @@ export default function Home() {
     }
     return btoa(binary);
   };
+
   // Convert Base64 to WASM bytes
   const base64ToBytes = (base64, ptr) => {
     const binary = atob(base64);
@@ -32,37 +36,51 @@ export default function Home() {
     }
     return binary.length;
   };
+
   const encryptText = () => {
     if (!Module) return alert("WASM not loaded yet");
     if (!text || !key) return alert("Enter both text and key");
+
     const keyPtr = Module._malloc(key.length);
     Module.stringToUTF8(key, keyPtr, key.length + 1);
     Module._rc4_init(keyPtr, key.length);
+
     const dataPtr = Module._malloc(text.length);
     Module.stringToUTF8(text, dataPtr, text.length + 1);
+
     Module._rc4_crypt(dataPtr, text.length);
+
     const encryptedBase64 = bytesToBase64(dataPtr, text.length);
     setResult(encryptedBase64);
+
     Module._free(keyPtr);
     Module._free(dataPtr);
   };
+
   const decryptText = () => {
     if (!Module) return alert("WASM not loaded yet");
     if (!text || !key)
       return alert("Enter both Base64 encrypted text and key");
+
     const encryptedBase64 = text;
     const keyPtr = Module._malloc(key.length);
     Module.stringToUTF8(key, keyPtr, key.length + 1);
     Module._rc4_init(keyPtr, key.length);
+
     const dataLen = atob(encryptedBase64).length;
     const dataPtr = Module._malloc(dataLen);
+
     base64ToBytes(encryptedBase64, dataPtr);
+
     Module._rc4_crypt(dataPtr, dataLen);
+
     const decrypted = Module.UTF8ToString(dataPtr, dataLen + 1);
     setResult(decrypted);
+
     Module._free(keyPtr);
     Module._free(dataPtr);
   };
+
   return (
     <div
       style={{
@@ -88,6 +106,7 @@ export default function Home() {
         <h1 style={{ marginBottom: "30px", color: "#3f2b96" }}>
           RC4 Encryption / Decryption (WASM)
         </h1>
+
         <div style={{ marginBottom: 20 }}>
           <input
             style={{
@@ -101,6 +120,7 @@ export default function Home() {
             onChange={(e) => setText(e.target.value)}
           />
         </div>
+
         <div style={{ marginBottom: 20 }}>
           <input
             style={{
@@ -114,6 +134,7 @@ export default function Home() {
             onChange={(e) => setKey(e.target.value)}
           />
         </div>
+
         <div style={{ marginBottom: 20 }}>
           <button
             onClick={encryptText}
@@ -129,6 +150,7 @@ export default function Home() {
           >
             Encrypt
           </button>
+
           <button
             onClick={decryptText}
             style={{
@@ -143,7 +165,9 @@ export default function Home() {
             Decrypt
           </button>
         </div>
+
         <h3 style={{ color: "#3f2b96" }}>Result:</h3>
+
         <textarea
           style={{
             width: "100%",
@@ -159,3 +183,4 @@ export default function Home() {
     </div>
   );
 }
+
