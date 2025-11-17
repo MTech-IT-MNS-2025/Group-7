@@ -89,3 +89,5 @@ rc4-wasm-app
 ```
 
 ## Screenshots
+<img width="993" height="549" alt="Screenshot 2025-11-17 at 11 42 26 PM" src="https://github.com/user-attachments/assets/c7f42842-d363-4f94-83de-0bb01c3ffc28" />
+<img width="1053" height="511" alt="Screenshot 2025-11-17 at 11 43 03 PM" src="https://github.com/user-attachments/assets/c37a62b5-e536-4894-aa04-f5a6343e02bb" />
