@@ -1,0 +1,17 @@
+# Contributors - RC4 WASM Project (Next.js + WebAssembly + C)
+
+Member 1 (MANISHA) – WASM & Compilation
+- Compiled RC4 C code to WebAssembly
+- Exported necessary functions for JS integration
+
+Member 2 (Shreyansh Rajput) – Frontend Integration
+- Integrated WASM module with Next.js frontend
+- Implemented encryption/decryption UI
+
+Member 3 (Nidhi Jain) – Memory & Data Handling
+- Managed memory allocation/deallocation between JS & WASM
+- Handled text input/output conversion
+
+Member 4 (Ayushi) – Project Management & UI
+- Managed project setup and folder structure
+- Styled UI and tested encryption/decryption flow
