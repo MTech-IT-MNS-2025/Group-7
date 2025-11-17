@@ -59,21 +59,23 @@ export default function Home() {
 
   const decryptText = () => {
     if (!Module) return alert("WASM not loaded yet");
-    if (!text || !key)
-      return alert("Enter both Base64 encrypted text and key");
+    if (!text || !key) return alert("Enter both Base64 encrypted text and key");
 
     const encryptedBase64 = text;
     const keyPtr = Module._malloc(key.length);
     Module.stringToUTF8(key, keyPtr, key.length + 1);
     Module._rc4_init(keyPtr, key.length);
 
+    // Allocate buffer of exact size
     const dataLen = atob(encryptedBase64).length;
     const dataPtr = Module._malloc(dataLen);
 
+    // Copy Base64 bytes to WASM
     base64ToBytes(encryptedBase64, dataPtr);
 
     Module._rc4_crypt(dataPtr, dataLen);
 
+    // Convert decrypted bytes back to string
     const decrypted = Module.UTF8ToString(dataPtr, dataLen + 1);
     setResult(decrypted);
 
@@ -82,100 +84,38 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "linear-gradient(135deg, #a8c0ff, #3f2b96)",
-        padding: 20,
-        fontFamily: "Arial",
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "40px",
-          borderRadius: "12px",
-          boxShadow: "0px 8px 25px rgba(0,0,0,0.15)",
-          width: "500px",
-          textAlign: "center",
-        }}
-      >
-        <h1 style={{ marginBottom: "30px", color: "#3f2b96" }}>
-          RC4 Encryption / Decryption (WASM)
-        </h1>
+    <div style={{ padding: 40 }}>
+      <h1>RC4 Encryption / Decryption (WASM)</h1>
 
-        <div style={{ marginBottom: 20 }}>
-          <input
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-            }}
-            placeholder="Enter text (Encrypt) / Base64 (Decrypt)"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-        </div>
+      <div style={{ marginBottom: 20 }}>
+        <input
+          style={{ width: "300px", marginRight: 10 }}
+          placeholder="Enter text (Encrypt) / Base64 (Decrypt)"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </div>
 
-        <div style={{ marginBottom: 20 }}>
-          <input
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "8px",
-              border: "1px solid #ccc",
-            }}
-            placeholder="Enter key"
-            value={key}
-            onChange={(e) => setKey(e.target.value)}
-          />
-        </div>
+      <div style={{ marginBottom: 20 }}>
+        <input
+          style={{ width: "300px", marginRight: 10 }}
+          placeholder="Enter key"
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+        />
+      </div>
 
-        <div style={{ marginBottom: 20 }}>
-          <button
-            onClick={encryptText}
-            style={{
-              padding: "10px 20px",
-              marginRight: 10,
-              borderRadius: "8px",
-              border: "none",
-              background: "#3f2b96",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            Encrypt
-          </button>
+      <div style={{ marginBottom: 20 }}>
+        <button onClick={encryptText} style={{ marginRight: 10 }}>
+          Encrypt
+        </button>
+        <button onClick={decryptText}>Decrypt</button>
+      </div>
 
-          <button
-            onClick={decryptText}
-            style={{
-              padding: "10px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: "#6a5acd",
-              color: "white",
-              cursor: "pointer",
-            }}
-          >
-            Decrypt
-          </button>
-        </div>
-
-        <h3 style={{ color: "#3f2b96" }}>Result:</h3>
-
+      <div>
+        <h3>Result:</h3>
         <textarea
-          style={{
-            width: "100%",
-            height: "150px",
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-          }}
+          style={{ width: "500px", height: "150px" }}
           value={result}
           readOnly
         />
@@ -183,4 +123,3 @@ export default function Home() {
     </div>
   );
 }
-
