@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Diffie–Hellman Lab — Client</title>
+  <style>
+    body{font-family:Inter,system-ui,Segoe UI,Arial;margin:0;padding:20px;background:#f7f9fc;color:#111}
+    .container{max-width:880px;margin:0 auto;background:white;padding:20px;border-radius:10px;border:1px solid #eef3fb}
+    header{display:flex;align-items:center;gap:12px}
+    h1{margin:6px 0 12px;font-size:20px}
+    .form{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+    label{width:50px;font-weight:700}
+    input[type=text]{flex:1;padding:8px;border:1px solid #ddd;border-radius:6px}
+    button{padding:8px 12px;border-radius:6px;border:none;background:#0b63d6;color:white;cursor:pointer}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+    .box{padding:12px;border-radius:8px;background:#fff;border:1px solid #eee}
+    pre{white-space:pre-wrap;font-family:monospace;background:#0d1320;color:#dff;padding:8px;border-radius:6px}
+    .note{font-size:13px;color:#555}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Diffie–Hellman Key Exchange — Client</h1>
+    </header>
+
+    <p class="note">Enter <strong>p</strong> and <strong>g</strong>. Client picks random <strong>a</strong> (JS), computes <strong>x = g^a mod p</strong> using the provided compiled C (myprog.js + myprog.wasm) via Emscripten, sends &lt;g,p,x&gt; to the server, and displays &lt;K,y,a&gt; after server response.</p>
+
+    <div style="margin-top:12px">
+      <div class="form">
+        <label for="p">p</label>
+        <input id="p" value="467" />
+      </div>
+      <div class="form">
+        <label for="g">g</label>
+        <input id="g" value="2" />
+      </div>
+
+      <div style="margin-top:8px">
+        <button id="loadWasm">Load myprog.js</button>
+        <button id="compute">Compute & Send</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <h3>Client (Sent)</h3>
+        <pre id="sent">{}</pre>
+      </div>
+      <div class="box">
+        <h3>Server (Response)</h3>
+        <pre id="received">{}</pre>
+      </div>
+    </div>
+
+    <div style="margin-top:12px" class="grid">
+      <div class="box">
+        <strong>K (shared secret)</strong>
+        <pre id="K">-</pre>
+      </div>
+      <div class="box">
+        <strong>y (server public)</strong>
+        <pre id="y">-</pre>
+      </div>
+    </div>
+
+    <div style="margin-top:12px" class="box">
+      <strong>a (client private)</strong>
+      <pre id="a">-</pre>
+    </div>
+
+    <div style="margin-top:10px" class="note">WASM status: <span id="wasmStatus">not loaded</span></div>
+  </div>
+
+<script>
+let modexp_c = null;
+let wasmReady = false;
+
+async function loadClientWasm() {
+async function loadClientWasm() {
+  document.getElementById('wasmStatus').textContent = 'loading...';
+  // remove any previous script nodes
+  const prev = document.getElementById('myprog-glue'); if (prev) prev.remove();
+  const prevf = document.getElementById('myprog-fallback'); if (prevf) prevf.remove();
+
+  function tryInitFromExisting() {
+    try {
+      if (typeof Module !== 'undefined' && Module.cwrap) {
+        modexp_c = Module.cwrap('modexp', 'number', ['number','number','number']);
+        wasmReady = true;
+        document.getElementById('wasmStatus').textContent = 'loaded (Module)';
+        return true;
+      }
+      if (typeof window !== 'undefined' && typeof window._modexp_js === 'function') {
+        modexp_c = function(a,b,n){ return window._modexp_js(Number(a), Number(b), Number(n)); };
+        wasmReady = true;
+        document.getElementById('wasmStatus').textContent = 'loaded (fallback function)';
+        return true;
+      }
+    } catch(e){}
+    return false;
+  }
+
+  // load /myprog.js (server will return real glue or fallback as we set above)
+  const s = document.createElement('script');
+  s.id = 'myprog-glue';
+  s.src = '/myprog.js';
+  s.async = true;
+  s.onload = async () => {
+    if (tryInitFromExisting()) return;
+    console.warn('myprog.js loaded but Module.cwrap/_modexp_js not found — attempting fallback.');
+    loadFallback();
+  };
+  s.onerror = () => {
+    console.warn('Failed to load /myprog.js — attempting fallback.');
+    loadFallback();
+  };
+  document.body.appendChild(s);
+
+  function loadFallback() {
+    if (tryInitFromExisting()) return;
+    if (document.getElementById('myprog-fallback')) {
+      // already present, try init
+      if (tryInitFromExisting()) return;
+      document.getElementById('wasmStatus').textContent = 'fallback init failed';
+      return;
+    }
+    const f = document.createElement('script');
+    f.id = 'myprog-fallback';
+    f.src = '/myprog_fallback.js';
+    f.async = true;
+    f.onload = () => {
+      if (tryInitFromExisting()) {
+        console.log('Using fallback for client modexp.');
+      } else {
+        document.getElementById('wasmStatus').textContent = 'fallback init failed';
+        console.error('Fallback loaded but initialization failed.');
+      }
+    };
+    f.onerror = () => {
+      document.getElementById('wasmStatus').textContent = 'fallback not found';
+      console.error('Failed to load /myprog_fallback.js');
+    };
+    document.body.appendChild(f);
+  }
+}
+
+}
+
+function callCmodexp(a,b,n) {
+  if (!modexp_c) throw new Error('modexp_c not available');
+  return BigInt(modexp_c(Number(a), Number(b), Number(n)));
+}
+
+function randomBigIntBelow(p) {
+  const max = BigInt(p) - 1n;
+  const bits = max.toString(2).length;
+  const bytes = Math.ceil(bits / 8);
+  let r;
+  do {
+    const buf = new Uint8Array(bytes);
+    crypto.getRandomValues(buf);
+    r = 0n;
+    for (let i = 0; i < buf.length; i++) r = (r << 8n) + BigInt(buf[i]);
+  } while (r === 0n || r > max);
+  return r;
+}
+
+document.getElementById('loadWasm').addEventListener('click', loadClientWasm);
+
+document.getElementById('compute').addEventListener('click', async () => {
+  const pIn = document.getElementById('p').value.trim();
+  const gIn = document.getElementById('g').value.trim();
+  if (!pIn || !gIn) return alert('enter p and g');
+  if (!wasmReady || !modexp_c) {
+    return alert('Client wasm not loaded. Click "Load myprog.js" and ensure files are in public/');
+  }
+
+  const p = BigInt(pIn);
+  const g = BigInt(gIn);
+  const a = randomBigIntBelow(p);
+  document.getElementById('a').textContent = a.toString();
+
+  let x;
+  try {
+    x = callCmodexp(g, a, p);
+  } catch (e) {
+    console.error('C modexp failed', e);
+    return alert('Client wasm call failed. Check console.');
+  }
+
+  const sent = { g: g.toString(), p: p.toString(), x: x.toString() };
+  document.getElementById('sent').textContent = JSON.stringify(sent, null, 2);
+
+  try {
+    const resp = await fetch('/compute', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(sent)
+    });
+    if (!resp.ok) {
+      const txt = await resp.text();
+      document.getElementById('received').textContent = 'Error: ' + txt;
+      return;
+    }
+    const data = await resp.json();
+    document.getElementById('received').textContent = JSON.stringify(data, null, 2);
+    document.getElementById('K').textContent = data.K;
+    document.getElementById('y').textContent = data.y;
+  } catch (err) {
+    console.error(err);
+    document.getElementById('received').textContent = 'Network error: ' + err;
+  }
+});
+</script>
+</body>
+</html>
