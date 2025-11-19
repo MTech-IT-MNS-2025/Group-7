@@ -33,5 +33,5 @@ then open in browser http://localhost:3000
 
 ## Command to Calculate the MD5 digest during lab test
 ```bash
-md5sum next-wasm-dh.zip
+md5sum cryptotest.zip
 ```
