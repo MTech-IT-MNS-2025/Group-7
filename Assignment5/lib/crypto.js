@@ -1,5 +1,6 @@
 let libPromise = null;
 
+// The folloiwng function dynamically loads liboqs.js (from /public) into the browser only when needed (if not already loaded).
 export const loadOQS = () => {
     if (libPromise) return libPromise;
 
