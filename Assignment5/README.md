@@ -151,7 +151,51 @@ Note: The above mentioned two files are already generated and kept inside the /p
 
 ### Step-2: Compile liboqs as a static library  
 
+1. Enter the liboqs directory and create a build folder
+    ```bash
+    cd liboqs
+    mkdir build
+    cd build
+    ```
+    
+ 2. Configure the build using emcmake 
+    ```bash
+    emcmake cmake .. \
+      -DOQS_BUILD_ONLY_LIB=ON \
+      -DOQS_ENABLE_KEM_ML_KEM_768=ON \
+      -DOQS_ENABLE_SIG_ML_DSA_65=OFF \
+      -DBUILD_SHARED_LIBS=OFF \
+      -DOQS_USE_OPENSSL=OFF \
+      -DCMAKE_INSTALL_PREFIX=$(pwd)/../install \
+      -DOQS_MINIMAL_BUILD="ML-KEM-768"
+    ```
+    
+ 3. Compile the library
+
+    ``` emmake make -j4 ```
+
+4. Install the library (moves the .a file to the install folder)
+
+    ``` emmake make install ```
 
 ###  Step-3: Generate the final .js and .wasm files 
 
+Use emcc command to link the library and generate the final .js and .wasm files:
+
+    ```bash
+    emcc -O3 \
+      -s WASM=1 \
+      -s MODULARIZE=1 \
+      -s EXPORT_NAME="liboqs" \
+      -s ALLOW_MEMORY_GROWTH=1 \
+      -s ENVIRONMENT=web \
+      -s EXPORTED_FUNCTIONS='["_malloc", "_free"]' \
+      -s EXPORTED_RUNTIME_METHODS='["ccall", "cwrap"]' \
+      -I liboqs/install/include \
+      wrapper.c \
+      liboqs/install/lib/liboqs.a \
+      -o liboqs.js
+    ```
+
+The above command produces the optimized 'liboqs.js' and 'liboqs.wasm' files  used in this project.
 
