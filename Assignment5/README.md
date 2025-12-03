@@ -104,6 +104,7 @@ Post-Quantum Secure Private Messaging
 ├── styles/
 │   └── globals.css              # Global styling
 │
+├── wrapper.c                    # wrapper.c — C file exposing liboqs functions (keygen, encap, decap) to be compiled into WebAssembly.
 ├── .env.local                   # Environment variables
 ├── .env.local.example           # Example env file
 │
