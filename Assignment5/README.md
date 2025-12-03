@@ -121,3 +121,37 @@ Post-Quantum Secure Private Messaging
 <img width="740" height="576" alt="Screenshot 2025-12-01 at 11 27 46 PM" src="https://github.com/user-attachments/assets/4f7d7067-8509-4c78-bbac-49b182475cc3" />
 
 <img width="776" height="580" alt="Screenshot 2025-12-01 at 11 28 05 PM" src="https://github.com/user-attachments/assets/06e33645-6c48-401b-956a-5a28a43dddd9" />
+
+## How to Generate the 'liboqs.js' and 'liboqs.wasm' files from liboqs C libraray using Emscripten 
+
+Note: The above mentioned two files are already generated and kept inside the /public diractory. But, if you want to generate these from the scratch then follow the steps mentioned below:-
+
+### Step-1: Set up the Emscripten SDK (emsdk) and cmake on your terminal 
+
+1. Install CMake (build system tools)
+   
+    ``` brew install cmake ninja ```
+
+2. Download the Emscripten SDK (emsdk)
+   ```bash
+    git clone https://github.com/emscripten-core/emsdk.git
+    cd emsdk
+    ```
+
+3. Install and activate the latest version of the compiler
+   ```bash
+    ./emsdk install latest
+    ./emsdk activate latest
+    ```
+
+4. Activate the environment variables (adds 'emcc' to the terminal PATH)
+
+    ``` source ./emsdk_env.sh ```
+
+
+### Step-2: Compile liboqs as a static library  
+
+
+###  Step-3: Generate the final .js and .wasm files 
+
+
